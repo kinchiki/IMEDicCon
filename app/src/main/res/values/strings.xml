@@ -1,4 +1,20 @@
 <resources>
     <string name="app_name">IMEDictConv</string>
     <string name="action_settings">Settings</string>
+
+    <string name="intv">移行元IME</string>
+    <string name="outtv">移行先IME</string>
+    <string name="input_selection">移行元のIMEを選択してください</string>
+    <string name="output_selection">移行先のIMEを選択してください</string>
+    <string name="ActionBt">変換</string>
+
+    <string-array name="IMEList">
+        <item>Google日本語入力</item>
+        <item>ATOK</item>
+        <item>Simeji</item>
+        <item>FlickWnn</item>
+        <item>POBox</item>
+        <item>その他</item>
+    </string-array>
+
 </resources>
