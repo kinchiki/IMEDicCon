@@ -114,14 +114,14 @@ public class UserDictionaryConverter {
         if (!checkBeforeRead(ma, charSet)) return;
         checkBeforeWrite(charSet);
 
-        String data[] = (bufReader.readLine()).split("\"\\],\"JAJP_KEY\":\\[\"");
-        String value[] = data[0].split("\",\"");
-        String key[] = data[1].split("\",\"");
-        int last = value.length - 1;
+        String data[] = (bufReader.readLine()).split("\"\\],\"JAJP_VALUE\":\\[\"");
+        String key[] = data[0].split("\",\"");
+        String value[] = data[1].split("\",\"");
+        int last = key.length - 1;
 
         if (last > 0) {
-            value[0] = value[0].substring(42);
-            key[last] = key[last].substring(0, key[last].length() - 3);
+            key[0] = key[0].substring(14);
+            value[last] = value[last].substring(0, value[last].length() - 29);
         } else {
             // 辞書登録数が1のときの処理
             return;
@@ -146,29 +146,31 @@ public class UserDictionaryConverter {
 //                if (!p.matcher(str).matches()) {
                 if(!str.startsWith(";")) {
                     String[] tmp = str.split(separator);
-                    value.add(tmp[0]);
-                    key.add(tmp[1]);
+                    key.add(tmp[0]);
+                    value.add(tmp[1]);
                 }
             }
         } else {
             while ((str = bufReader.readLine()) != null) {
                 String[] tmp = str.split(separator);
-                value.add(tmp[0]);
-                key.add(tmp[1]);
+                key.add(tmp[0]);
+                value.add(tmp[1]);
             }
         }
 
-        int last = value.size() - 1;
+        // 単語の数 keyまたはvalue引く1
+        int last = key.size() - 1;
+
         //書き込み
-        printWriter.print("{\"EN_KEY\":[],\"EN_VALUE\":[],\"JAJP_VALUE\":[");
+        printWriter.print("{\"JAJP_KEY\":[");
         for (int i = 0; i < last; i++) {
             printWriter.print("\"" + key.get(i) + "\",");
         }
-        printWriter.print("\"" + key.get(last) + "\"],\"JAJP_KEY\":[");
+        printWriter.print("\"" + key.get(last) + "\"],\"JAJP_VALUE\":[");
         for (int i = 0; i < last; i++) {
             printWriter.print("\"" + value.get(i) + "\",");
         }
-        printWriter.print("\"" + value.get(last) + "\"]}" + "\n");
+        printWriter.print("\"" + value.get(last) + "\"],\"EN_KEY\":[],\"EN_VALUE\":[]}" + "\n");
         Toast.makeText(ma, outputPath + "に変換ファイルを保存しました", Toast.LENGTH_LONG).show();
     }
 
